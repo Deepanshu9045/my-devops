@@ -1,5 +1,5 @@
 "use client";
-
+import { useEffect } from "react";
 import { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,9 +17,11 @@ export default function LoginPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
+useEffect(() => {
   if (!loading && user) {
     router.replace("/dashboard");
   }
+}, [loading, user, router]);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
