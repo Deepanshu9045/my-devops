@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState, use } from "react";
 import Link from "next/link";
 import {
   arrayRemove,
@@ -26,10 +26,16 @@ type ContributorPageProps = {
   params: { orgId: string };
 };
 
-export default function ContributorsPage({ params }: ContributorPageProps) {
+export default function ContributorsPage({
+  params,
+}: {
+  params: Promise<{ orgId: string }>;
+}) {
+  const { orgId } = use(params);
+
   return (
     <ProtectedRoute>
-      <ContributorsContent orgId={params.orgId} />
+      <ContributorsContent orgId={orgId} />
     </ProtectedRoute>
   );
 }

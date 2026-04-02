@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState, use } from "react";
 import Link from "next/link";
 import {
   addDoc,
@@ -23,10 +23,16 @@ type BoardPageProps = {
   params: { orgId: string };
 };
 
-export default function BoardPage({ params }: BoardPageProps) {
+export default function BoardPage({
+  params,
+}: {
+  params: Promise<{ orgId: string }>;
+}) {
+  const { orgId } = use(params);
+
   return (
     <ProtectedRoute>
-      <BoardContent orgId={params.orgId} />
+      <BoardContent orgId={orgId} />
     </ProtectedRoute>
   );
 }
@@ -387,11 +393,11 @@ function BoardContent({ orgId }: { orgId: string }) {
                         <div className="avatar-badge">
                           {task.assigneeName
                             ? task.assigneeName
-                                .split(" ")
-                                .map((item) => item.charAt(0))
-                                .join("")
-                                .slice(0, 2)
-                                .toUpperCase()
+                              .split(" ")
+                              .map((item) => item.charAt(0))
+                              .join("")
+                              .slice(0, 2)
+                              .toUpperCase()
                             : "NA"}
                         </div>
                         <span>{task.assigneeName || "Unassigned"}</span>
